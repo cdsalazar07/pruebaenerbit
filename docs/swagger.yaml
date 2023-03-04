@@ -1,0 +1,153 @@
+basePath: /api/v1
+definitions:
+  models.Datameds:
+    properties:
+      address:
+        type: string
+      brand:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      installationDate:
+        type: string
+      isActive:
+        type: boolean
+      lines:
+        type: integer
+      retirementDate:
+        type: string
+      serial:
+        type: string
+    type: object
+  models.DeleteEMeterModel:
+    properties:
+      id:
+        type: string
+    type: object
+  models.NewEMeterModel:
+    properties:
+      address:
+        type: string
+      brand:
+        type: string
+      installationDate:
+        type: string
+      lines:
+        type: integer
+      serial:
+        type: string
+    type: object
+  models.StandardResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.UpdateEMeterStatusModel:
+    properties:
+      id:
+        type: string
+      status:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Servicio de gestion contadores
+  title: Prueba técnica Enerbit
+  version: "1.0"
+paths:
+  /deleteemeter:
+    post:
+      description: Elimina un medidor de energía en la base de datos
+      parameters:
+      - description: Data
+        in: body
+        name: args
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteEMeterModel'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StandardResponse'
+      summary: Elimina medidor de energía
+  /lastemeter/{brand}/{serial}:
+    get:
+      description: Muestra el último medidor de energía instalado en la base de datos
+      parameters:
+      - description: Data
+        in: path
+        name: brand
+        required: true
+        type: string
+      - description: Data
+        in: path
+        name: serial
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Datameds'
+      summary: Último medidor de energía instalado
+  /listdisableemeter:
+    get:
+      description: Muestra todos los registros de medidores de energía deshabilitados
+        que existan en la base de datos
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Datameds'
+            type: array
+      summary: Listado de todos los medidores de energía deshabilitados
+  /listemeter:
+    get:
+      description: Muestra todos los registros de medidores de energía que existan
+        en la base de datos
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Datameds'
+            type: array
+      summary: Listado de todos los medidores de energía
+  /newemeter:
+    post:
+      description: Crea un nuevo medidor de energía en la base de datos
+      parameters:
+      - description: Data
+        in: body
+        name: args
+        required: true
+        schema:
+          $ref: '#/definitions/models.NewEMeterModel'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StandardResponse'
+      summary: Creador de medidor de energía
+  /updateemeterstatus:
+    post:
+      description: Actualiza el estado de un medidor de energía en la base de datos
+      parameters:
+      - description: Update
+        in: body
+        name: counter
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateEMeterStatusModel'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StandardResponse'
+      summary: Actualiza medidor de energía
+swagger: "2.0"
